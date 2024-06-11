@@ -5,7 +5,7 @@
 // Cubey
 //
 // An example of putting sprites on the screen using Phaser
-//
+// 
 // Art assets from Kenny Assets "Shape Characters" set:
 // https://kenney.nl/assets/shape-characters
 
@@ -14,31 +14,28 @@
 
 // game config
 let config = {
-  parent: 'phaser-game',
-  type: Phaser.CANVAS,
-  render: {
-    pixelArt: true  // prevent pixel art from getting blurred when scaled
-  },
-  physics: {
-    default: 'arcade',
-    arcade: {
-      debug: true,
-      gravity: {
-        x: 0,
-        y: 0
-      }
-    }
-  },
-  // width: 1440,
-  // height: 900,
-  // height: 720,
-  width: 800,
-  height: 720,
-  scene: [Load, Platformer, Platformer2, Platformer3]
+    parent: 'phaser-game',
+    type: Phaser.CANVAS,
+    render: {
+        pixelArt: true  // prevent pixel art from getting blurred when scaled
+    },
+    physics: {
+        default: 'arcade',
+        arcade: {
+            debug: true,
+            gravity: {
+                x: 0,
+                y: 0
+            }
+        }
+    },
+    width: 1440,
+    height: 900,
+    scene: [Load, StartScene, Platformer, EndScene]
 }
 
 var cursors;
 const SCALE = 2.0;
-var my = { sprite: {}, text: {} };
+var my = {sprite: {}, text: {}, vfx: {}};
 
 const game = new Phaser.Game(config);
