@@ -14,6 +14,7 @@ class Platformer extends Phaser.Scene {
         this.totalKeys = 2;
         this.canDoubleJump = false;
         this.doubleJumped = false;
+        this.canTripleJump = false;
         this.canWallJump = false;
         this.wallJumpDirection = 0;
         this.isCrouching = false;
@@ -65,12 +66,28 @@ class Platformer extends Phaser.Scene {
             frame: 111
         });
 
+        this.levers = this.map.createFromObjects('lever', {
+            name: 'lever',
+            key: 'tilemap_sheet',
+            frame: 64
+        });
+
+
+
+
         this.physics.world.enable(this.coins, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.keys, Phaser.Physics.Arcade.STATIC_BODY);
         this.physics.world.enable(this.flag, Phaser.Physics.Arcade.STATIC_BODY);
+        this.physics.world.enable(this.levers, Phaser.Physics.Arcade.STATIC_BODY);
 
         this.coinGroup = this.add.group(this.coins);
         this.keyGroup = this.add.group(this.keys);
+        this.leverGroup = this.add.group(this.levers);
+        this.interactKey = this.input.keyboard.addKey('E');
+
+        this.leverGroup.children.each((lever) => {
+            lever.setDepth(2);
+        });
 
         my.sprite.player = this.physics.add.sprite(30, 100, "platformer_characters", "tile_0000.png");
         my.sprite.player.setCollideWorldBounds(true);
@@ -79,6 +96,13 @@ class Platformer extends Phaser.Scene {
 
         
         this.physics.add.collider(my.sprite.player, this.movingPlatformGroup);
+
+        this.physics.add.overlap(my.sprite.player, this.leverGroup, (player, lever) => {
+            if (Phaser.Input.Keyboard.JustDown(this.interactKey)) {
+                lever.setFrame(66);
+                this.canTripleJump = true;
+            }
+        });
 
         
         this.physics.add.overlap(my.sprite.player, this.keyGroup, (obj1, obj2) => {
@@ -188,6 +212,8 @@ class Platformer extends Phaser.Scene {
         if (my.sprite.player.body.blocked.down) {
             this.canDoubleJump = true;
             this.doubleJumped = false;
+            this.tripleJumped = false;
+            
         }
 
         if (Phaser.Input.Keyboard.JustDown(cursors.up)) {
@@ -197,6 +223,10 @@ class Platformer extends Phaser.Scene {
             } else if (this.canDoubleJump && !this.doubleJumped) {
                 my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY);
                 this.doubleJumped = true;
+                this.jumpSound.play();
+            } else if (this.canTripleJump && !this.tripleJumped) {
+                my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY);
+                this.tripleJumped = true;
                 this.jumpSound.play();
             }
         }

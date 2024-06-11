@@ -328,6 +328,29 @@
         }, 
         {
          "draworder":"topdown",
+         "id":7,
+         "name":"lever",
+         "objects":[
+                {
+                 "gid":65,
+                 "height":18,
+                 "id":41,
+                 "name":"lever",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":18,
+                 "x":233.430031521635,
+                 "y":395.856433279205
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":5,
          "name":"keys",
          "objects":[
@@ -384,8 +407,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":7,
- "nextobjectid":41,
+ "nextlayerid":8,
+ "nextobjectid":43,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
